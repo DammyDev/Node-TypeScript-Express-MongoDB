@@ -5,9 +5,7 @@ import { User } from '../../models/User';
 
 export const addUserSchema = Joi.object().keys({
   email: Joi.string().required(),
-  password: Joi.string().required(),
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required()
+  password: Joi.string().required()
 });
 
 const registerWrapper: RequestHandler = async (req, res) => {

@@ -9,10 +9,6 @@ export interface IUser extends Document {
   /** Password */
   password: string;
   /** Password */
-  firstName: string;
-  /** Password */
-  lastName: string;
-  /** Created On */
   createdOn: Date;
   /** Created On */
   updatedOn: Date;
@@ -25,8 +21,6 @@ interface IUserModel extends Model<IUser> { }
 const schema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
   createdOn: {
     required: true,
     type: Date
