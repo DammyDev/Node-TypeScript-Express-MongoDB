@@ -14,7 +14,7 @@ interface IBlogModel extends Model<IBlog> { }
 const schema = new Schema({
   url: { type: String, required: true },
   body: { type: String, required: true },
-  heading_texts: { type: String, required: true }
+  heading_texts: { type: String, required: true },
 });
 
 export const Blogs: IBlogModel = model<IBlog, IBlogModel>('Blogs', schema);
