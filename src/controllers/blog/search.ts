@@ -16,17 +16,14 @@ const buildBlogSeachQuery = (searchTerm: string) => {
 
 const searchWrapper: RequestHandler = async (req, res) => {
   const { q = undefined } = req.query;
+  const { page = undefined } = req.query;
+  const docsPerPage = 10;
+  const currentPage = Number(page) || 1;
 
   const query = buildBlogSeachQuery((q as string));
-  let blogs = await Blogs.find(query);
-  
- // Truncate the body to the first 50 characters
- blogs = blogs.map((blog:any) => ({
-  ...blog._doc,
-  body: blog.body.substring(0, 200)
-}));
-
-  res.send({ blogs });
+  const totalResult = await Blogs.find(query).countDocuments();
+  const blogs = await Blogs.find(query).skip(docsPerPage * currentPage).limit(docsPerPage);
+  res.send({ blogs, currentPage, pages: Math.ceil(totalResult / docsPerPage) });
 };
 
 export const search = relogRequestHandler(searchWrapper);
