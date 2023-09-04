@@ -16,10 +16,14 @@ const buildBlogSeachQuery = (searchTerm: string) => {
 
 const searchWrapper: RequestHandler = async (req, res) => {
   const { q = undefined } = req.query;
+  const { page = undefined } = req.query;
+  const docsPerPage = 10;
+  const currentPage = Number(page) || 1;
 
   const query = buildBlogSeachQuery((q as string));
-  const blogs = await Blogs.find(query);
-  res.send({ blogs });
+  const totalResult = await Blogs.find(query).countDocuments();
+  const blogs = await Blogs.find(query).skip(docsPerPage * currentPage).limit(docsPerPage);
+  res.send({ blogs, currentPage, pages: Math.ceil(totalResult / docsPerPage) });
 };
 
 export const search = relogRequestHandler(searchWrapper);
